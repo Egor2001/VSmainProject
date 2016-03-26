@@ -83,7 +83,7 @@ Function::~Function()
 void Function::Transform ()
     {
     Matrix transf_m = Matrix();
-    float scale = current_m_[4][4];
+    float scale = current_m_[3][3];
 
     if      (GetAsyncKeyState('Z'     )) PointsFill (step_ * 1.025f);
     else if (GetAsyncKeyState('X'     )) PointsFill (step_ / 1.025f);
@@ -138,7 +138,7 @@ void Function::Draw (COLORREF color)
     Matrix result_m_inv = ~result_m;
 
     object_.obj_Transform (result_m);
-    object_.obj_Draw      (color, 1, EGLlight (Vect (screenX_ / 2, screenY_ / 2, -800), EGLcolor (255, 255, 255)));
+    object_.obj_Draw      (color, true);
     object_.obj_Transform (result_m_inv);
     }
 

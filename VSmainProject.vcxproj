@@ -79,6 +79,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="EGLcolor.h" />
     <ClInclude Include="EGLmatrix.h" />
     <ClInclude Include="EGLwindow.h" />
     <ClInclude Include="FillFunctions.h" />

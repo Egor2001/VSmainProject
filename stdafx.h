@@ -20,6 +20,11 @@
 #include <map>
 #include <assert.h>
 
+using std::string;
+using std::vector;
+using std::stack;
+using std::map;
+
 //#include "TXLib.h"
 
 // TODO: reference additional headers your program requires here

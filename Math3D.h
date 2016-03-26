@@ -35,8 +35,7 @@ inline float operator %  (const Vect&, const Vect&);
 inline void  operator *= (      Vect&, const Vect&);
 inline Vect  operator *  (const Vect&, const Vect&);
 
-Vect::Vect () :
-    x (0), y (0), z (0), p (1) {}
+Vect::Vect () : x (0), y (0), z (0), p (1) {}
 
 Vect::Vect (float x_set, float y_set, float z_set) :
     x (x_set), y (y_set), z (z_set), p (1) {}
@@ -63,7 +62,7 @@ Vect Vect::operator ! () const
 
 float Vect::Length() const
     {
-    return sqrtf (x * x + y * y + z * z) / p;
+    return sqrtf (x * x + y * y + z * z) / (p == 0.0f ? 1.0f : p);
     }
 
 void Vect::Simple()
@@ -281,12 +280,12 @@ inline Vect       operator *  (const Quaternion&, const       Vect&);
 inline float      operator %  (const Quaternion&, const Quaternion&);
 
 inline Quaternion ToQuaternion (const     Matrix& convert);
-inline     Matrix ToMatrix (const Quaternion& convert);
+inline     Matrix ToMatrix     (const Quaternion& convert);
 
-Matrix GetScaleMatrix (float factor);
+Matrix GetScaleMatrix     (float factor);
 Matrix GetTranslateMatrix (const Vect& dist);
-Matrix GetRotateMatrix (const Vect& dir  , float ang);
-Matrix ShortArc (const Vect& from , const Vect& to);
+Matrix GetRotateMatrix    (const Vect& dir  , float ang);
+Matrix ShortArc           (const Vect& from , const Vect& to);
 
 Quaternion::Quaternion() :
     x (0.0f), y (0.0f), z (0.0f), w (0.0f) {}
