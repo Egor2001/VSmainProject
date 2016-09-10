@@ -1,34 +1,41 @@
 ﻿  VSmainProject.cpp
-c:\users\егор\desktop\vsmainproject\EGLcolor.h(36): warning C4244: аргумент: преобразование "float" в "BYTE", возможна потеря данных
-c:\users\егор\desktop\vsmainproject\EGLcolor.h(43): warning C4244: аргумент: преобразование "float" в "BYTE", возможна потеря данных
-c:\users\егор\desktop\vsmainproject\EGLcolor.h(57): warning C4244: *=: преобразование "float" в "BYTE", возможна потеря данных
-c:\users\егор\desktop\vsmainproject\EGLcolor.h(58): warning C4244: *=: преобразование "float" в "BYTE", возможна потеря данных
-c:\users\егор\desktop\vsmainproject\EGLcolor.h(59): warning C4244: *=: преобразование "float" в "BYTE", возможна потеря данных
-c:\users\егор\desktop\vsmainproject\EGLcolor.h(75): warning C4244: аргумент: преобразование "float" в "BYTE", возможна потеря данных
-c:\users\егор\desktop\vsmainproject\FillFunctions.h(166): warning C4244: инициализация: преобразование "double" в "short", возможна потеря данных
-c:\users\егор\desktop\vsmainproject\FillFunctions.h(167): warning C4244: инициализация: преобразование "double" в "short", возможна потеря данных
-c:\users\егор\desktop\vsmainproject\FillFunctions.h(375): warning C4244: инициализация: преобразование "double" в "short", возможна потеря данных
-c:\users\егор\desktop\vsmainproject\FillFunctions.h(376): warning C4244: инициализация: преобразование "double" в "short", возможна потеря данных
-c:\users\егор\desktop\vsmainproject\Light.h(58): warning C4244: +=: преобразование "float" в "UINT", возможна потеря данных
-c:\users\егор\desktop\vsmainproject\Light.h(59): warning C4244: +=: преобразование "float" в "UINT", возможна потеря данных
-c:\users\егор\desktop\vsmainproject\Light.h(60): warning C4244: +=: преобразование "float" в "UINT", возможна потеря данных
-c:\users\егор\desktop\vsmainproject\Object.h(136): warning C4473: "fscanf_s": передано недостаточно аргументов для строки формата
-  c:\users\егор\desktop\vsmainproject\Object.h(136): note: заполнители и их параметры ожидают переменное число аргументов в количестве 2, но было предоставлено 1
-  c:\users\егор\desktop\vsmainproject\Object.h(136): note: отсутствующий вариативный аргумент "2" требуется для строки форматирования "%s"
-  c:\users\егор\desktop\vsmainproject\Object.h(136): note: этот аргумент используется в качестве размера буфера
-c:\users\егор\desktop\vsmainproject\Object.h(147): warning C4473: "fscanf_s": передано недостаточно аргументов для строки формата
-  c:\users\егор\desktop\vsmainproject\Object.h(147): note: заполнители и их параметры ожидают переменное число аргументов в количестве 2, но было предоставлено 1
-  c:\users\егор\desktop\vsmainproject\Object.h(147): note: отсутствующий вариативный аргумент "2" требуется для строки форматирования "%s"
-  c:\users\егор\desktop\vsmainproject\Object.h(147): note: этот аргумент используется в качестве размера буфера
-c:\users\егор\desktop\vsmainproject\Object.h(255): warning C4244: аргумент: преобразование "float" в "short", возможна потеря данных
-c:\users\егор\desktop\vsmainproject\Object.h(260): warning C4244: аргумент: преобразование "float" в "short", возможна потеря данных
-c:\users\егор\desktop\vsmainproject\Object.h(262): warning C4244: аргумент: преобразование "float" в "short", возможна потеря данных
-c:\users\егор\desktop\vsmainproject\Object.h(264): warning C4244: аргумент: преобразование "float" в "short", возможна потеря данных
-c:\users\егор\desktop\vsmainproject\Graph.h(129): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
-VSmainProject.cpp(20): warning C4244: аргумент: преобразование "float" в "short", возможна потеря данных
+c:\users\егор\desktop\vsmainproject\render\../Raster/EGLcolor.h(36): warning C4244: аргумент: преобразование "float" в "BYTE", возможна потеря данных
+c:\users\егор\desktop\vsmainproject\render\../Raster/EGLcolor.h(43): warning C4244: аргумент: преобразование "float" в "BYTE", возможна потеря данных
+c:\users\егор\desktop\vsmainproject\render\../Raster/EGLcolor.h(57): warning C4244: *=: преобразование "float" в "BYTE", возможна потеря данных
+c:\users\егор\desktop\vsmainproject\render\../Raster/EGLcolor.h(58): warning C4244: *=: преобразование "float" в "BYTE", возможна потеря данных
+c:\users\егор\desktop\vsmainproject\render\../Raster/EGLcolor.h(59): warning C4244: *=: преобразование "float" в "BYTE", возможна потеря данных
+c:\users\егор\desktop\vsmainproject\render\../Raster/EGLcolor.h(75): warning C4244: аргумент: преобразование "float" в "BYTE", возможна потеря данных
+c:\users\егор\desktop\vsmainproject\render\../Render/EGLlight.h(73): warning C4244: +=: преобразование "float" в "UINT", возможна потеря данных
+c:\users\егор\desktop\vsmainproject\render\../Render/EGLlight.h(74): warning C4244: +=: преобразование "float" в "UINT", возможна потеря данных
+c:\users\егор\desktop\vsmainproject\render\../Render/EGLlight.h(75): warning C4244: +=: преобразование "float" в "UINT", возможна потеря данных
+c:\users\егор\desktop\vsmainproject\render\../Raster//FillFunctions.h(166): warning C4244: инициализация: преобразование "double" в "short", возможна потеря данных
+c:\users\егор\desktop\vsmainproject\render\../Raster//FillFunctions.h(167): warning C4244: инициализация: преобразование "double" в "short", возможна потеря данных
+c:\users\егор\desktop\vsmainproject\render\../Raster//FillFunctions.h(381): warning C4244: инициализация: преобразование "double" в "short", возможна потеря данных
+c:\users\егор\desktop\vsmainproject\render\../Raster//FillFunctions.h(382): warning C4244: инициализация: преобразование "double" в "short", возможна потеря данных
+c:\users\егор\desktop\vsmainproject\Render/EGLpipeline.h(44): warning C4244: аргумент: преобразование "float" в "short", возможна потеря данных
+c:\users\егор\desktop\vsmainproject\Render/EGLpipeline.h(46): warning C4244: аргумент: преобразование "float" в "short", возможна потеря данных
+c:\users\егор\desktop\vsmainproject\Render/EGLpipeline.h(48): warning C4244: аргумент: преобразование "float" в "short", возможна потеря данных
+c:\users\егор\desktop\vsmainproject\Render/EGLpipeline.h(73): warning C4244: аргумент: преобразование "float" в "short", возможна потеря данных
+c:\users\егор\desktop\vsmainproject\Render/EGLpipeline.h(93): warning C4244: аргумент: преобразование "float" в "short", возможна потеря данных
+c:\users\егор\desktop\vsmainproject\Render/EGLpipeline.h(147): warning C4244: аргумент: преобразование "const LONG" в "float", возможна потеря данных
+c:\users\егор\desktop\vsmainproject\Object.h(85): warning C4473: "fscanf_s": передано недостаточно аргументов для строки формата
+  c:\users\егор\desktop\vsmainproject\Object.h(85): note: заполнители и их параметры ожидают переменное число аргументов в количестве 2, но было предоставлено 1
+  c:\users\егор\desktop\vsmainproject\Object.h(85): note: отсутствующий вариативный аргумент "2" требуется для строки форматирования "%s"
+  c:\users\егор\desktop\vsmainproject\Object.h(85): note: этот аргумент используется в качестве размера буфера
+c:\users\егор\desktop\vsmainproject\Object.h(93): warning C4473: "fscanf_s": передано недостаточно аргументов для строки формата
+  c:\users\егор\desktop\vsmainproject\Object.h(93): note: заполнители и их параметры ожидают переменное число аргументов в количестве 2, но было предоставлено 1
+  c:\users\егор\desktop\vsmainproject\Object.h(93): note: отсутствующий вариативный аргумент "2" требуется для строки форматирования "%s"
+  c:\users\егор\desktop\vsmainproject\Object.h(93): note: этот аргумент используется в качестве размера буфера
+c:\users\егор\desktop\vsmainproject\Graph.h(57): warning C4267: аргумент: преобразование из "size_t" в "USHORT"; возможна потеря данных
+c:\users\егор\desktop\vsmainproject\Graph.h(58): warning C4267: аргумент: преобразование из "size_t" в "USHORT"; возможна потеря данных
+c:\users\егор\desktop\vsmainproject\Graph.h(117): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\егор\desktop\vsmainproject\Graph.h(118): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\егор\desktop\vsmainproject\Graph.h(123): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+VSmainProject.cpp(15): warning C4244: аргумент: преобразование "float" в "short", возможна потеря данных
+VSmainProject.cpp(91): warning C4305: аргумент: усечение из "double" к "float"
   Создание кода
-  1 of 688 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
+  Создание кода завершено
+  1 of 1554 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
     0 functions had inline decision re-evaluated but remain unchanged
-  Создание кода завершено
   VSmainProject.vcxproj -> C:\Users\Егор\Desktop\VSmainProject\Release\VSmainProject.exe

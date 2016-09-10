@@ -1,272 +1,175 @@
 #pragma once
 
 #include "stdafx.h"
-#include "Math3D.h"
-#include "FillFunctions.h"
-#include "Light.h"
+#include "Render/EGLpipeline.h"
 
 //For projection matrix we need z in range [0; 1]!
 
 struct EGLobject
 {
-    private:
+public:
+    EGLobject();
+    EGLobject(const EGLindexbuf& index_buf_set, const EGLvertexbuf& point_buf_set);
+    EGLobject(const EGLobject&  set);
+    EGLobject      (EGLobject&& set);
 
-    FILE* obj_model_f;
+    EGLobject& operator= (const EGLobject&  set);
+    EGLobject& operator=       (EGLobject&& set);
 
-    size_t obj_point_buf_sz;
-    size_t obj_index_buf_sz;
+    virtual ~EGLobject();
 
-      Vect* obj_point_buf;
-    size_t* obj_index_buf;
+    const EGLvertexbuf& getPointBuf() const { return point_buf_; }
+    const EGLindexbuf&  getIndexBuf() const { return index_buf_; }
 
-    public:
+    virtual void fromFile (FILE* model_f = NULL);
+    virtual void intoFile (FILE* model_f = NULL);
 
-    EGLobject ();
-
-    EGLobject (const EGLobject& setObject);
-
-    EGLobject (size_t pbuf_sz_set, size_t ibuf_sz_set);
-
-    EGLobject (const   Vect* point_buf_set, size_t pbuf_sz_set,
-               const size_t* index_buf_set, size_t ibuf_sz_set);
-
-   ~EGLobject ();
-
-    FILE*   Get_model_f     () const { return obj_model_f;      }
-    size_t  Get_point_buf_sz() const { return obj_point_buf_sz; }
-    size_t  Get_index_buf_sz() const { return obj_index_buf_sz; }
-      Vect* Get_point_buf   () const { return obj_point_buf;    }
-    size_t* Get_index_buf   () const { return obj_index_buf;    }
-
-    void obj_FromFile (LPCSTR model_f_set = NULL);
-    void obj_IntoFile (LPCSTR model_f_set = NULL);
-
-    void obj_Point_buf_set (const   Vect* point_buf_set, size_t buf_sz_set);
-    void obj_Index_buf_set (const size_t* index_buf_set, size_t buf_sz_set);
-
-    void obj_Draw      (const EGLcolor& color, bool filled) const;
-    void obj_Transform (const Matrix& mat);
+    void setPointBuf(const EGLvertexbuf&  point_buf_set) { point_buf_ = point_buf_set; point_buf_.shrink_to_fit(); }
+    void setPointBuf      (EGLvertexbuf&& point_buf_set) { point_buf_ = point_buf_set; point_buf_.shrink_to_fit(); }
+    void setIndexBuf(const EGLindexbuf&   index_buf_set) { index_buf_ = index_buf_set; index_buf_.shrink_to_fit(); }
+    void setIndexBuf      (EGLindexbuf&&  index_buf_set) { index_buf_ = index_buf_set; index_buf_.shrink_to_fit(); }
+    
+    void render(EGLrenderType renderType) const;
+    
+protected:
+    EGLvertexbuf point_buf_;
+    EGLindexbuf  index_buf_;
 };
 
-EGLobject::EGLobject ():
-    obj_model_f      (NULL),
-    obj_point_buf_sz (0),
-    obj_index_buf_sz (0),
-    obj_point_buf    (new   Vect [obj_point_buf_sz]),
-    obj_index_buf    (new size_t [obj_index_buf_sz])
-{
-    for (size_t i = 0; i < obj_point_buf_sz; i++)
-        obj_point_buf[i] = Vect ();
+EGLobject::EGLobject (): 
+    point_buf_(), index_buf_() {}
 
-    for (size_t i = 0; i < obj_index_buf_sz; i++)
-        obj_index_buf[i] = 0;
+EGLobject::EGLobject(const EGLindexbuf& index_buf_set, const EGLvertexbuf& point_buf_set):
+    point_buf_(point_buf_set), index_buf_(index_buf_set) {}
+
+EGLobject::EGLobject(const EGLobject& set):
+    point_buf_(set.point_buf_), index_buf_(set.index_buf_) 
+{
+    point_buf_.shrink_to_fit();
+    index_buf_.shrink_to_fit();
 }
 
-EGLobject::EGLobject (const EGLobject& setObject):
-    obj_model_f      (NULL),
-    obj_point_buf_sz (setObject.obj_point_buf_sz),
-    obj_index_buf_sz (setObject.obj_index_buf_sz),
-    obj_point_buf    (new   Vect [setObject.obj_point_buf_sz]),
-    obj_index_buf    (new size_t [setObject.obj_index_buf_sz])
-	{
-		for (size_t i = 0; i < obj_point_buf_sz; i++)
-			obj_point_buf[i] = setObject.obj_point_buf[i];
-
-		for (size_t i = 0; i < obj_index_buf_sz; i++)
-			obj_index_buf[i] = setObject.obj_index_buf[i];
-	}
-
-EGLobject::EGLobject (size_t pbuf_sz_set, size_t ibuf_sz_set):
-    obj_model_f      (NULL),
-    obj_point_buf_sz (pbuf_sz_set),
-    obj_index_buf_sz (ibuf_sz_set),
-    obj_point_buf    (new   Vect [obj_point_buf_sz]),
-    obj_index_buf    (new size_t [obj_index_buf_sz])
-    {
-		for (size_t i = 0; i < obj_point_buf_sz; i++)
-			obj_point_buf[i] = Vect();
-
-		for (size_t i = 0; i < obj_index_buf_sz; i++)
-			obj_index_buf[i] = 0;
-    }
-
-EGLobject::EGLobject (const   Vect* point_buf_set, size_t pbuf_sz_set,
-                      const size_t* index_buf_set, size_t ibuf_sz_set):
-    obj_model_f      (NULL),
-    obj_point_buf_sz (pbuf_sz_set),
-    obj_index_buf_sz (ibuf_sz_set),
-    obj_point_buf    (new   Vect [obj_point_buf_sz]),
-    obj_index_buf    (new size_t [obj_index_buf_sz])
-    {
-		for (size_t i = 0; i < obj_point_buf_sz; i++)
-			obj_point_buf[i] = point_buf_set[i].GetSimple();
-
-		for (size_t i = 0; i < obj_index_buf_sz; i++)
-			obj_index_buf[i] = index_buf_set[i];
-    }
-
-EGLobject::~EGLobject ()
+EGLobject::EGLobject(EGLobject&& set):
+    point_buf_(std::move(set.point_buf_)), index_buf_(std::move(set.index_buf_)) 
 {
-    delete [] obj_index_buf;
-              obj_index_buf_sz = 0;
-              obj_index_buf    = NULL;
-
-    delete [] obj_point_buf;
-              obj_point_buf_sz = 0;
-              obj_point_buf    = NULL;
-
-	if (obj_model_f) fclose (obj_model_f);
+    point_buf_.shrink_to_fit();
+    index_buf_.shrink_to_fit();
 }
 
-void EGLobject::obj_FromFile (LPCSTR model_f_set/* = NULL */)
+EGLobject& EGLobject::operator=(const EGLobject& set)
 {
-    if (model_f_set)
-    {
-		if (obj_model_f) fclose (obj_model_f);
-        
-		fopen_s (&obj_model_f, model_f_set, "r");
+    point_buf_ = set.point_buf_; point_buf_.shrink_to_fit();
+    index_buf_ = set.index_buf_; index_buf_.shrink_to_fit();
+}
 
-        if (!obj_model_f) return;
-    }
+EGLobject& EGLobject::operator=(EGLobject&& set)
+{
+    point_buf_ = std::move(set.point_buf_); point_buf_.shrink_to_fit();
+    index_buf_ = std::move(set.index_buf_); index_buf_.shrink_to_fit();
+}
 
-    char read [256] = "";
+EGLobject::~EGLobject() { index_buf_.clear(); point_buf_.clear(); }
 
-    delete [] obj_index_buf; obj_index_buf_sz = 0;
+void EGLobject::fromFile(FILE* model_f/* = NULL */)
+{
+    if (!model_f) return;
 
-    for (size_t res = 0; res != EOF; res = fscanf_s (obj_model_f, "%s\n", read))
-		if (!strcmp (read, "facet")) obj_index_buf_sz += 3;
-
-    rewind (obj_model_f);
-
-    Vect* vertex_buf = new Vect [obj_index_buf_sz];
-    Vect    temp_v;
-
-    obj_index_buf = new size_t [obj_index_buf_sz];
-    for (size_t i = 0; i < obj_index_buf_sz; i++) obj_index_buf[i] = -1;
-
-    fscanf_s (obj_model_f, "solid %s \n", read);
-    for (size_t i = 0; (i+2) < obj_index_buf_sz; i += 3)
-    {
-        fscanf_s (obj_model_f, "facet normal %f %f %f \n", &temp_v.x, &temp_v.y, &temp_v.z);
-        fscanf_s (obj_model_f, "outer loop \n");
-
-        for (size_t j = 0; j < 3; j++)
-        {
-            fscanf_s (obj_model_f, "vertex %f %f %f \n", &temp_v.x, &temp_v.y, &temp_v.z);
-            
-			vertex_buf[i+j] = temp_v;
-        }
-
-        fscanf_s (obj_model_f, "endloop \n");
-        fscanf_s (obj_model_f, "endfacet \n");
-    }
-    fscanf_s (obj_model_f, "endsolid \n");
-
-    delete [] obj_point_buf; obj_point_buf_sz = 0;
+    char token[256] = "";
+    EGLvector temp_v;
+    vector<EGLvector> temp_point_buf;
+    vector<USHORT>    temp_index_buf;
     
-	for (size_t i = 0; i < obj_index_buf_sz; i++)
+    index_buf_.clear();
+    point_buf_.clear();
+    
+    for (size_t res = 0; res != EOF; res = fscanf_s (model_f, "%s\n", token))
+		if (!strcmp(token, "facet")) index_buf_.push_back(EGLindex3());
+
+    rewind(model_f);
+
+    temp_index_buf.resize(index_buf_.size()*3);
+    temp_point_buf.resize(index_buf_.size()*3);
+    
+    fscanf_s(model_f, "solid %s \n", token);
+    for (size_t i = 0; i < temp_point_buf.size(); i++)
     {
-        if (obj_index_buf[i] == -1) obj_index_buf[i] = obj_point_buf_sz++; else continue;
+        fscanf_s(model_f, "facet normal %f %f %f \n", &temp_v.x, &temp_v.y, &temp_v.z);
+        fscanf_s(model_f, "outer loop \n");
 
-        for (size_t j = i+1; j < obj_index_buf_sz; j++) 
-			if (vertex_buf[j] == vertex_buf[i]) obj_index_buf[j] = obj_index_buf[i];
-    }
-
-    obj_point_buf = new Vect [obj_point_buf_sz];
-
-    for (size_t i = 0; i < obj_index_buf_sz; i++) obj_point_buf[obj_index_buf[i]] = vertex_buf[i];
-
-    delete [] vertex_buf;
-}
-
-void EGLobject::obj_IntoFile (LPCSTR model_f_set/* = NULL */)
-{
-    if (model_f_set)
-	{
-		if (obj_model_f) fclose (obj_model_f);
+            fscanf_s(model_f, "vertex %f %f %f \n", &temp_v.x, &temp_v.y, &temp_v.z);
+            temp_point_buf[3*i + 0] = temp_v;
+            
+            fscanf_s(model_f, "vertex %f %f %f \n", &temp_v.x, &temp_v.y, &temp_v.z);
+            temp_point_buf[3*i + 1] = temp_v;
+            
+            fscanf_s(model_f, "vertex %f %f %f \n", &temp_v.x, &temp_v.y, &temp_v.z);
+            temp_point_buf[3*i + 2] = temp_v;
         
-		fopen_s (&obj_model_f, model_f_set, "w");
-
-        if (!obj_model_f) return;
+        fscanf_s(model_f, "endloop \n");
+        fscanf_s(model_f, "endfacet \n");
     }
-
-    Vect normal_cur = Vect ();
-    Vect v1 = Vect (), v2 = Vect (), v3 = Vect ();
-
-    fprintf_s (obj_model_f, "solid %s\n", model_f_set);
-
-    for (size_t i = 0; (i+2) < obj_index_buf_sz; i+=3)
+    fscanf_s(model_f, "endsolid \n");
+    
+    USHORT obj_point_buf_sz = 0;
+	for (size_t i = 0; i < temp_index_buf.size(); i++)
     {
-        v1 = obj_point_buf[obj_index_buf[i+2]];
-        v2 = obj_point_buf[obj_index_buf[i+1]];
-        v3 = obj_point_buf[obj_index_buf[i  ]];
+        if (temp_index_buf[i] != -1) continue;
 
-        fprintf_s (obj_model_f, "facet normal %f %f %f\n", 0.0f, 0.0f, 0.0f);
-        fprintf_s (obj_model_f, "  outer loop\n");
-        fprintf_s (obj_model_f, "    vertex %f %f %f\n", v1.x, v1.y, v1.z);
-        fprintf_s (obj_model_f, "    vertex %f %f %f\n", v2.x, v2.y, v2.z);
-        fprintf_s (obj_model_f, "    vertex %f %f %f\n", v3.x, v3.y, v3.z);
-        fprintf_s (obj_model_f, "  endloop\n");
-        fprintf_s (obj_model_f, "endfacet\n");
+        temp_index_buf[i] = obj_point_buf_sz++; 
+        
+        for (size_t j = i+1; j < temp_index_buf.size(); j++) 
+			if (temp_point_buf[j] == temp_point_buf[i]) 
+                temp_index_buf[j] =  temp_index_buf[i];
     }
 
-    fprintf_s (obj_model_f, "endsolid\n");
-}
+    point_buf_.resize(obj_point_buf_sz);
 
-void EGLobject::obj_Point_buf_set (const Vect* point_buf_set, size_t buf_sz_set)
-{
-    delete [] obj_point_buf;
-              obj_point_buf_sz = buf_sz_set;
-              obj_point_buf    = new Vect [obj_point_buf_sz];
+    for (size_t i = 0; i < temp_index_buf.size(); i++)
+        point_buf_[temp_index_buf[i]].vector = temp_point_buf[i];
 
-    for (size_t i = 0; i < obj_point_buf_sz; i++) obj_point_buf[i] = point_buf_set[i].GetSimple();
-}
-
-void EGLobject::obj_Index_buf_set (const size_t* index_buf_set, size_t buf_sz_set)
-{
-    delete [] obj_index_buf;
-              obj_index_buf_sz = buf_sz_set;
-              obj_index_buf    = new size_t [obj_index_buf_sz];
-
-    for (size_t i = 0; i < obj_index_buf_sz; i++)
-        obj_index_buf[i] = index_buf_set[i];
-}
-
-void EGLobject::obj_Draw (const EGLcolor& color, bool filled) const
-{
-    Vect v1 = Vect (),
-         v2 = Vect (),
-         v3 = Vect ();
-
-    Vect place_cur = Vect (),
-        normal_cur = Vect ();
-
-    for (size_t i = 0; (i+2) < obj_index_buf_sz; i+=3)
+    for (size_t i = 0; i < index_buf_.size(); i++)
     {
-        v1 = obj_point_buf[obj_index_buf[i]  ];
-        v2 = obj_point_buf[obj_index_buf[i+1]];
-        v3 = obj_point_buf[obj_index_buf[i+2]];
-
-        if (filled)
-        {
-            eglFillTriangle (v1.x, v1.y, v1.z,
-                             v2.x, v2.y, v2.z,
-                             v3.x, v3.y, v3.z,
-                             EGL_LIGHT::GetPointColor (color, (v1+v3)/2, (v3-v2)*(v1-v2)));
-        }
-        else
-        {
-            eglLine (v1.x, v1.y, v1.z,
-                     v2.x, v2.y, v2.z, color);
-            eglLine (v1.x, v1.y, v1.z,
-                     v3.x, v3.y, v3.z, color);
-            eglLine (v3.x, v3.y, v3.z,
-                     v2.x, v2.y, v2.z, color);
-        }
+        index_buf_[i].ind1 = temp_index_buf[3*i + 0];
+        index_buf_[i].ind2 = temp_index_buf[3*i + 1];
+        index_buf_[i].ind3 = temp_index_buf[3*i + 2];
     }
+
+    index_buf_.shrink_to_fit();
+    point_buf_.shrink_to_fit();
+    
+    rewind(model_f);
 }
 
-void EGLobject::obj_Transform (const Matrix& mat)
+void EGLobject::intoFile (FILE* model_f/* = NULL */)
 {
-    for (size_t i = 0; i < obj_point_buf_sz; i++) obj_point_buf[i] *= mat;
+    if (!model_f) return;
+    
+    EGLvector normal_cur;
+    EGLvector v1, v2, v3;
+
+    fprintf_s(model_f, "solid %s\n", "");
+
+    for (size_t i = 0; i < index_buf_.size(); i++)
+    {
+        v1 = point_buf_[index_buf_[i].ind1].vector;
+        v2 = point_buf_[index_buf_[i].ind2].vector;
+        v3 = point_buf_[index_buf_[i].ind3].vector;
+
+        fprintf_s(model_f, "facet normal %f %f %f\n", 0.0f, 0.0f, 0.0f);
+        fprintf_s(model_f, "  outer loop\n");
+        fprintf_s(model_f, "    vertex %f %f %f\n", v1.x, v1.y, v1.z);
+        fprintf_s(model_f, "    vertex %f %f %f\n", v2.x, v2.y, v2.z);
+        fprintf_s(model_f, "    vertex %f %f %f\n", v3.x, v3.y, v3.z);
+        fprintf_s(model_f, "  endloop\n");
+        fprintf_s(model_f, "endfacet\n");
+    }
+
+    fprintf_s(model_f, "endsolid\n");
+}
+
+void EGLobject::render(EGLrenderType renderType) const
+{
+    eglSetIndexBuf (index_buf_);
+    eglSetVertexBuf(point_buf_);
+    eglRender(renderType);
 }

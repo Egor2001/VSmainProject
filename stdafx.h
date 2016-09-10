@@ -10,15 +10,22 @@
 #include "targetver.h"
 
 #include "Windows.h"
-#include <stdio.h>
+#include "Limits.h"
 #include <tchar.h>
-#include <math.h>
+#include <cmath>
+#include <cfloat>
 #include <string.h>
 #include <string>
 #include <vector>
 #include <stack>
 #include <map>
 #include <assert.h>
+#include <cstdlib>
+#include <memory>
+#include <cstdio>
+#include <exception>
+#include <typeinfo>
+#include <type_traits>
 
 using std::string;
 using std::vector;
